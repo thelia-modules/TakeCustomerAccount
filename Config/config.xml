@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+
+    <forms>
+        <form name="take_customer_account" class="TakeCustomerAccount\Form\TakeCustomerAccountForm" />
+    </forms>
+
+    <hooks>
+        <hook id="take.customer.account" class="TakeCustomerAccount\Hook\AdminCustomerHook" scope="request">
+            <tag name="hook.event_listener" event="customer.edit" type="back" method="onCustomerEdit"/>
+            <tag name="hook.event_listener" event="customer.edit-js" type="back" method="onCustomerEditJs"/>
+        </hook>
+    </hooks>
+</config>

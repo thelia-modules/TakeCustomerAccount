@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="http://thelia.net/schema/dic/module"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_1.xsd">
+    <fullnamespace>TakeCustomerAccount\TakeCustomerAccount</fullnamespace>
+    <descriptive locale="en_US">
+        <title>Lets take control of a customer account</title>
+    </descriptive>
+    <descriptive locale="fr_FR">
+        <title>Permet de prendre le contrôle d'un compte client</title>
+    </descriptive>
+    <languages>
+        <language>en_US</language>
+        <language>fr_FR</language>
+    </languages>
+    <version>1.0</version>
+    <author>
+        <name>Gilles Bourgeat</name>
+        <email>gbourgeat@openstudio.fr</email>
+    </author>
+    <type>classic</type>
+    <thelia>2.1.0</thelia>
+    <stability>other</stability>
+</module>
