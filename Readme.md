@@ -5,6 +5,10 @@ Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gbourgeat@openstudio.fr>
 * This module is used to connect to a client account from admin.
 * You have not need the customer password
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thelia-modules/TakeCustomerAccount/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/thelia-modules/TakeCustomerAccount/?branch=master)
+[![License](https://poser.pugx.org/thelia/take-customer-account-module/license)](https://packagist.org/packages/thelia/take-customer-account-module)
+[![Latest Stable Version](https://poser.pugx.org/thelia/take-customer-account-module/v/stable)](https://packagist.org/packages/thelia/take-customer-account-module)
+
 ## Compatibility
 
 Thelia > 2.1
