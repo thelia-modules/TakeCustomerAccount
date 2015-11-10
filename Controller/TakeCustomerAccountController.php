@@ -47,6 +47,8 @@ class TakeCustomerAccountController extends BaseAdminController
         if (null !== $customer = CustomerQuery::create()->findPk($customer_id)) {
             $this->dispatch(TheliaEvents::CUSTOMER_LOGOUT);
 
+            $this->getSession()->getSessionCart($this->getDispatcher())->clear();
+
             $this->dispatch(TheliaEvents::CUSTOMER_LOGIN, new CustomerLoginEvent($customer));
 
             AdminLog::append(
