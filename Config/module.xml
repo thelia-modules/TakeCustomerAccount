@@ -13,12 +13,12 @@
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <author>
         <name>Gilles Bourgeat</name>
         <email>gbourgeat@openstudio.fr</email>
     </author>
     <type>classic</type>
     <thelia>2.1.0</thelia>
-    <stability>other</stability>
+    <stability>prod</stability>
 </module>
