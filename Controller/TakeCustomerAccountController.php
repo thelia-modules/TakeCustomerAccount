@@ -17,7 +17,6 @@ use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\AccessManager;
-use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Model\AdminLog;
 use Thelia\Model\CustomerQuery;
 
@@ -35,8 +34,7 @@ class TakeCustomerAccountController extends BaseAdminController
      */
     public function takeAction($customer_id)
     {
-        if (null !== $response = $this->checkAuth(array(
-                AdminResources::MODULE), 'TakeCustomerAccount', AccessManager::VIEW)) {
+        if (null !== $response = $this->checkAuth(array(), 'TakeCustomerAccount', AccessManager::VIEW)) {
             return $response;
         }
 
