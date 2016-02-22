@@ -10,34 +10,44 @@
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
 
-namespace TakeCustomerAccount;
+namespace TakeCustomerAccount\Event;
 
-use Thelia\Core\Template\TemplateDefinition;
-use Thelia\Module\BaseModule;
+use Thelia\Core\Event\ActionEvent;
+use Thelia\Model\Customer;
 
-class TakeCustomerAccount extends BaseModule
+/**
+ * Class TakeCustomerAccountEvent
+ * @package TakeCustomerAccount\Event
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ */
+class TakeCustomerAccountEvent extends ActionEvent
 {
-    const MODULE_DOMAIN = "takecustomeraccount";
+    /** @var Customer */
+    protected $customer;
 
     /**
-     * {@inheritdoc}
+     * @param Customer $customer
      */
-    public function getHooks()
+    public function __construct(Customer $customer)
     {
-        return [
-            [
-                "type" => TemplateDefinition::BACK_OFFICE,
-                "code" => "take-customer-account.form",
-                "title" => array(
-                    "fr_FR" => "Module Take Customer Account, form",
-                    "en_US" => "Module Take Customer Account, form",
-                ),
-                "description" => array(
-                    "fr_FR" => "En haut du formulaire",
-                    "en_US" => "Top of form",
-                ),
-                "active" => true
-            ]
-        ];
+        $this->customer = $customer;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer $customer
+     * @return TakeCustomerAccountEvent
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+        return $this;
     }
 }

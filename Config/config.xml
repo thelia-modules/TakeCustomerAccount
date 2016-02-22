@@ -14,4 +14,13 @@
             <tag name="hook.event_listener" event="customer.edit-js" type="back" method="onCustomerEditJs"/>
         </hook>
     </hooks>
+
+    <services>
+        <service id="take.customer.account.listener" class="TakeCustomerAccount\EventListener\TakeCustomerAccountListener" scope="request">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="thelia.securityContext"/>
+            <argument type="service" id="request"/>
+        </service>
+    </services>
 </config>

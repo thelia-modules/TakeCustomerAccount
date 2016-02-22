@@ -12,12 +12,12 @@
 
 namespace TakeCustomerAccount\Controller;
 
+use TakeCustomerAccount\Event\TakeCustomerAccountEvent;
+use TakeCustomerAccount\Event\TakeCustomerAccountEvents;
 use TakeCustomerAccount\TakeCustomerAccount;
 use Thelia\Controller\Admin\BaseAdminController;
-use Thelia\Core\Event\Customer\CustomerLoginEvent;
-use Thelia\Core\Event\TheliaEvents;
+use Thelia\Core\HttpKernel\Exception\RedirectException;
 use Thelia\Core\Security\AccessManager;
-use Thelia\Model\AdminLog;
 use Thelia\Model\CustomerQuery;
 
 /**
@@ -29,7 +29,7 @@ class TakeCustomerAccountController extends BaseAdminController
 {
     /**
      * @param int $customer_id
-     * @return mixed|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
     public function takeAction($customer_id)
@@ -40,33 +40,36 @@ class TakeCustomerAccountController extends BaseAdminController
 
         $form = $this->createForm('take_customer_account');
 
-        $formValidate = $this->validateForm($form);
+        try {
+            if (null !== $customer = CustomerQuery::create()->findPk($customer_id)) {
+                $this->validateForm($form);
 
-        if (null !== $customer = CustomerQuery::create()->findPk($customer_id)) {
-            $this->dispatch(TheliaEvents::CUSTOMER_LOGOUT);
+                $this->dispatch(
+                    TakeCustomerAccountEvents::TAKE_CUSTOMER_ACCOUNT,
+                    new TakeCustomerAccountEvent($customer)
+                );
+            } else {
+                throw new \Exception($this->getTranslator()->trans(
+                    "Customer not found",
+                    [],
+                    TakeCustomerAccount::MODULE_DOMAIN
+                ));
+            }
 
-            $this->getSession()->getSessionCart($this->getDispatcher())->clear();
+            $this->setCurrentRouter('router.front');
+            return $this->generateRedirectFromRoute('customer.home', [], [], 'router.front');
+        } catch (RedirectException $e) {
+            return $this->generateRedirect($e->getUrl(), $e->getCode());
+        } catch (\Exception $e) {
+            $form->setErrorMessage($e->getMessage());
 
-            $this->dispatch(TheliaEvents::CUSTOMER_LOGIN, new CustomerLoginEvent($customer));
+            $this->getParserContext()->addForm($form);
 
-            AdminLog::append(
-                TakeCustomerAccount::MODULE_DOMAIN,
-                AccessManager::VIEW,
-                'Took control of the customer account "' . $customer->getId() . '"',
-                $this->getRequest(),
-                $this->getSecurityContext()->getAdminUser()
+            $this->setCurrentRouter('router.admin');
+            return $this->generateRedirectFromRoute(
+                'admin.customer.update.view',
+                ['customer_id' => $customer_id]
             );
-        } else {
-            throw new \Exception($this->getTranslator()->trans(
-                "Customer not found",
-                [],
-                TakeCustomerAccount::MODULE_DOMAIN
-            ));
         }
-
-        if (null !== $formValidate->get('success_url')->getData()) {
-            return $this->generateSuccessRedirect($form);
-        }
-        return $this->generateRedirect("/account");
     }
 }

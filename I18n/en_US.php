@@ -1,4 +1,5 @@
 <?php
+
 return array(
-    // 'an english string' => 'The displayed english string',
+    'Customer not found' => ' Customer not found',
 );

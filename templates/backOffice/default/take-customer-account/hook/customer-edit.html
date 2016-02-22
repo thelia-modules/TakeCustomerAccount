@@ -1,3 +1,5 @@
+{loop type="auth" name="auth" role="ADMIN" module="TakeCustomerAccount" access="VIEW"}
+{form name="take_customer_account"}
 <div class="row">
     <div class="col-md-12 general-block-decorator" id="module-take-customer-account">
         <button class="btn btn-default pull-right js-popover"
@@ -5,7 +7,7 @@
                 data-placement="left"
                 data-html="true"
                 data-content="{intl l="To ask for help" d="takecustomeraccount.bo.default"}
-                </br> <a target='_blank' href='https://github.com/thelia-modules/TakeCustomerAccount/issues'>Github</a>
+                </br> <a target='_blank' href='https://github.com/thelia-modules/TakeCustomerAccount/issues'>GitHub</a>
                 , <a target='_blank' href='http://thelia.net/forum/'>Thelia forum</a>
                 "
                 >
@@ -14,26 +16,34 @@
         <div class="title title-without-tabs">
             {intl l="Take customer account" d="takecustomeraccount.bo.default"}
         </div>
-        <div class="form-container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="alert alert-info">
-                        - {intl l="To connect to the customer's account" d="takecustomeraccount.bo.default"}<br />
-                        - {intl l="If you are logged in with another customer he will be offline" d="takecustomeraccount.bo.default"}<br />
-                        - {intl l="You have not need the customer password" d="takecustomeraccount.bo.default"}
+        <form action="{url path="/admin/take-customer-account/$customer_id"}" method="POST" target="_blank">
+            {form_hidden_fields form=$form}
+            <div class="form-container">
+                <div class="row">
+                    {if $form_error}
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">{$form_error_message}</div>
+                    </div>
+                    {/if}
+
+                    {hook name="take-customer-account.form"}
+
+                    <div class="col-md-8">
+                        <div class="alert alert-info">
+                            - {intl l="To connect to the customer's account" d="takecustomeraccount.bo.default"}<br />
+                            - {intl l="If you are logged in with another customer he will be offline" d="takecustomeraccount.bo.default"}<br />
+                            - {intl l="You have not need the customer password" d="takecustomeraccount.bo.default"}
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <br />
+                        <br />
+                        <button type="submit" class="btn btn-primary">{intl l="Take customer account" d="takecustomeraccount.bo.default"}</button>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <br />
-                    <br />
-                    {form name="take_customer_account"}
-                        <form action="{url path="/admin/take-customer-account/$customer_id"}" method="POST" target="_blank" class="text-center">
-                            {form_hidden_fields form=$form}
-                            <button type="submit" class="btn btn-primary">{intl l="Take customer account" d="takecustomeraccount.bo.default"}</button>
-                        </form>
-                    {/form}
-                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
+{/form}
+{/loop}

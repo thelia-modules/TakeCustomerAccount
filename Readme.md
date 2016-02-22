@@ -9,6 +9,10 @@ Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gbourgeat@openstudio.fr>
 [![License](https://poser.pugx.org/thelia/take-customer-account-module/license)](https://packagist.org/packages/thelia/take-customer-account-module)
 [![Latest Stable Version](https://poser.pugx.org/thelia/take-customer-account-module/v/stable)](https://packagist.org/packages/thelia/take-customer-account-module)
 
+## Screenshot
+
+![Take Customer Account Screenchot 1](https://github.com/thelia-modules/TakeCustomerAccount/blob/master/screenshot/screenshot-1.jpeg)
+
 ## Compatibility
 
 Thelia > 2.1

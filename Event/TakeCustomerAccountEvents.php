@@ -10,34 +10,14 @@
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
 
-namespace TakeCustomerAccount;
+namespace TakeCustomerAccount\Event;
 
-use Thelia\Core\Template\TemplateDefinition;
-use Thelia\Module\BaseModule;
-
-class TakeCustomerAccount extends BaseModule
+/**
+ * Class TakeCustomerAccountEvents
+ * @package TakeCustomerAccount\Event
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ */
+class TakeCustomerAccountEvents
 {
-    const MODULE_DOMAIN = "takecustomeraccount";
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getHooks()
-    {
-        return [
-            [
-                "type" => TemplateDefinition::BACK_OFFICE,
-                "code" => "take-customer-account.form",
-                "title" => array(
-                    "fr_FR" => "Module Take Customer Account, form",
-                    "en_US" => "Module Take Customer Account, form",
-                ),
-                "description" => array(
-                    "fr_FR" => "En haut du formulaire",
-                    "en_US" => "Top of form",
-                ),
-                "active" => true
-            ]
-        ];
-    }
+    const TAKE_CUSTOMER_ACCOUNT = "take.customer.account";
 }
