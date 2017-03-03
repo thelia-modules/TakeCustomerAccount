@@ -56,11 +56,21 @@ class TakeCustomerAccountController extends BaseAdminController
                 ));
             }
 
+            // since version 1.2.0, use method_exists for retro compatibility
+            if (method_exists($form, 'hasSuccessUrl') && $form->hasSuccessUrl()) {
+                return $this->generateRedirectFromRoute($form->getSuccessUrl());
+            }
+
             $this->setCurrentRouter('router.front');
             return $this->generateRedirectFromRoute('customer.home', [], [], 'router.front');
         } catch (RedirectException $e) {
             return $this->generateRedirect($e->getUrl(), $e->getCode());
         } catch (\Exception $e) {
+            // since version 1.2.0, use method_exists for retro compatibility
+            if (method_exists($form, 'hasErrorUrl') && $form->hasErrorUrl()) {
+                return $this->generateRedirect($form->getErrorUrl());
+            }
+
             $form->setErrorMessage($e->getMessage());
 
             $this->getParserContext()->addForm($form);
