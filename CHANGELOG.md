@@ -1,3 +1,7 @@
+# 1.2.1
+
+- #4 Fix bug with cart without currency
+
 # 1.2.0
 
 - #3 Add success and error url option
