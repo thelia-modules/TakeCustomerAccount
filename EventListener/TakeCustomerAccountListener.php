@@ -17,6 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TakeCustomerAccount\Event\TakeCustomerAccountEvent;
 use TakeCustomerAccount\Event\TakeCustomerAccountEvents;
 use TakeCustomerAccount\TakeCustomerAccount;
+use Thelia\Core\Event\Cart\CartCreateEvent;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
 use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
@@ -65,12 +66,13 @@ class TakeCustomerAccountListener implements EventSubscriberInterface
     {
         $this->eventDispatcher->dispatch(TheliaEvents::CUSTOMER_LOGOUT, new DefaultActionEvent());
 
-        $this->request->getSession()->getSessionCart($this->eventDispatcher)->clear();
-
         $this->eventDispatcher->dispatch(
             TheliaEvents::CUSTOMER_LOGIN,
             new CustomerLoginEvent($event->getCustomer())
         );
+
+        $newCartEvent = new CartCreateEvent();
+        $this->eventDispatcher->dispatch(TheliaEvents::CART_CREATE_NEW, $newCartEvent);
 
         AdminLog::append(
             TakeCustomerAccount::MODULE_DOMAIN,
