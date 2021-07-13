@@ -12,6 +12,7 @@
 
 namespace TakeCustomerAccount\Controller;
 
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use TakeCustomerAccount\Event\TakeCustomerAccountEvent;
 use TakeCustomerAccount\Event\TakeCustomerAccountEvents;
 use TakeCustomerAccount\TakeCustomerAccount;
@@ -32,7 +33,7 @@ class TakeCustomerAccountController extends BaseAdminController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function takeAction($customer_id)
+    public function takeAction($customer_id, EventDispatcherInterface $eventDispatcher)
     {
         if (null !== $response = $this->checkAuth(array(), 'TakeCustomerAccount', AccessManager::VIEW)) {
             return $response;
@@ -44,9 +45,9 @@ class TakeCustomerAccountController extends BaseAdminController
             if (null !== $customer = CustomerQuery::create()->findPk($customer_id)) {
                 $this->validateForm($form);
 
-                $this->dispatch(
-                    TakeCustomerAccountEvents::TAKE_CUSTOMER_ACCOUNT,
-                    new TakeCustomerAccountEvent($customer)
+                $eventDispatcher->dispatch(
+                    new TakeCustomerAccountEvent($customer),
+                    TakeCustomerAccountEvents::TAKE_CUSTOMER_ACCOUNT
                 );
             } else {
                 throw new \Exception($this->getTranslator()->trans(
@@ -58,11 +59,11 @@ class TakeCustomerAccountController extends BaseAdminController
 
             // since version 1.2.0, use method_exists for retro compatibility
             if (method_exists($form, 'hasSuccessUrl') && $form->hasSuccessUrl()) {
-                return $this->generateRedirectFromRoute($form->getSuccessUrl());
+                return $this->generateSuccessRedirect($form);
             }
 
             $this->setCurrentRouter('router.front');
-            return $this->generateRedirectFromRoute('customer.home', [], [], 'router.front');
+            return $this->generateRedirect('/account');
         } catch (RedirectException $e) {
             return $this->generateRedirect($e->getUrl(), $e->getCode());
         } catch (\Exception $e) {

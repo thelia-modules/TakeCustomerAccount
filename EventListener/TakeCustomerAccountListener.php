@@ -18,6 +18,7 @@ use TakeCustomerAccount\Event\TakeCustomerAccountEvent;
 use TakeCustomerAccount\Event\TakeCustomerAccountEvents;
 use TakeCustomerAccount\TakeCustomerAccount;
 use Thelia\Core\Event\Cart\CartCreateEvent;
+use Thelia\Core\Event\Customer\CustomerEvent;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
 use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
@@ -64,15 +65,15 @@ class TakeCustomerAccountListener implements EventSubscriberInterface
      */
     public function take(TakeCustomerAccountEvent $event)
     {
-        $this->eventDispatcher->dispatch(TheliaEvents::CUSTOMER_LOGOUT, new DefaultActionEvent());
+        $this->eventDispatcher->dispatch( new DefaultActionEvent(),TheliaEvents::CUSTOMER_LOGOUT);
 
         $this->eventDispatcher->dispatch(
-            TheliaEvents::CUSTOMER_LOGIN,
-            new CustomerLoginEvent($event->getCustomer())
+            new CustomerLoginEvent($event->getCustomer()),
+            TheliaEvents::CUSTOMER_LOGIN
         );
 
         $newCartEvent = new CartCreateEvent();
-        $this->eventDispatcher->dispatch(TheliaEvents::CART_CREATE_NEW, $newCartEvent);
+        $this->eventDispatcher->dispatch($newCartEvent,TheliaEvents::CART_CREATE_NEW);
 
         AdminLog::append(
             TakeCustomerAccount::MODULE_DOMAIN,
