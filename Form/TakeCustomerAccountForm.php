@@ -1,4 +1,5 @@
 <?php
+
 /*************************************************************************************/
 /*      This file is part of the module TakeCustomerAccount                          */
 /*                                                                                   */
@@ -24,7 +25,7 @@ class TakeCustomerAccountForm extends BaseForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public static function getName()
+    public static function getName(): string
     {
         return 'take_customer_account';
     }

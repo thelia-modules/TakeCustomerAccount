@@ -1,4 +1,5 @@
 <?php
+
 /*************************************************************************************/
 /*      This file is part of the module TakeCustomerAccount                          */
 /*                                                                                   */
@@ -18,12 +19,12 @@ use Thelia\Module\BaseModule;
 
 class TakeCustomerAccount extends BaseModule
 {
-    const MODULE_DOMAIN = "takecustomeraccount";
+    public const MODULE_DOMAIN = "takecustomeraccount";
 
     /**
      * {@inheritdoc}
      */
-    public function getHooks()
+    public function getHooks(): array
     {
         return [
             [

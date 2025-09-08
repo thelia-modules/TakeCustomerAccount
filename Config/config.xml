@@ -16,7 +16,7 @@
     </hooks>
 
     <services>
-        <service id="take.customer.account.listener" class="TakeCustomerAccount\EventListener\TakeCustomerAccountListener" scope="request">
+        <service id="take.customer.account.listener" class="TakeCustomerAccount\EventListener\TakeCustomerAccountListener" scope="request_stack">
             <tag name="kernel.event_subscriber"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="thelia.securityContext"/>
