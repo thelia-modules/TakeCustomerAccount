@@ -1,15 +1,23 @@
 <?php
 
-/*************************************************************************************/
-/*      This file is part of the module FeatureType                                */
-/*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
-/*      For the full copyright and license information, please view the LICENSE.txt  */
-/*      file that was distributed with this source code.                             */
-/*************************************************************************************/
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*      Copyright (c) OpenStudio */
+/*      email : dev@thelia.net */
+/*      web : http://www.thelia.net */
+
+/*      For the full copyright and license information, please view the LICENSE.txt */
+/*      file that was distributed with this source code. */
 
 namespace TakeCustomerAccount\EventListener;
 
@@ -28,37 +36,20 @@ use Thelia\Core\Security\SecurityContext;
 use Thelia\Model\AdminLog;
 
 /**
- * Class TakeCustomerAccountListener
- * @package TakeCustomerAccount\EventListener
+ * Class TakeCustomerAccountListener.
+ *
  * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class TakeCustomerAccountListener implements EventSubscriberInterface
 {
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
-
-    /** @var SecurityContext */
-    protected $securityContext;
-
-    /** @var Request */
-    protected $request;
-
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param SecurityContext $securityContext
-     * @param Request $request
-     */
     public function __construct(
         protected EventDispatcherInterface $eventDispatcher,
         protected SecurityContext $securityContext,
-        protected RequestStack $requestStack
+        protected RequestStack $requestStack,
     ) {
     }
 
-    /**
-     * @param TakeCustomerAccountEvent $event
-     */
-    public function take(TakeCustomerAccountEvent $event)
+    public function take(TakeCustomerAccountEvent $event): void
     {
         $this->eventDispatcher->dispatch(new DefaultActionEvent(), TheliaEvents::CUSTOMER_LOGOUT);
 
@@ -73,19 +64,16 @@ class TakeCustomerAccountListener implements EventSubscriberInterface
         AdminLog::append(
             TakeCustomerAccount::MODULE_DOMAIN,
             AccessManager::VIEW,
-            'Took control of the customer account "' . $event->getCustomer()->getId() . '"',
+            'Took control of the customer account "'.$event->getCustomer()->getId().'"',
             $this->requestStack->getCurrentRequest(),
             $this->securityContext->getAdminUser()
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
-        return array(
-            TakeCustomerAccountEvents::TAKE_CUSTOMER_ACCOUNT => ['take', 128]
-        );
+        return [
+            TakeCustomerAccountEvents::TAKE_CUSTOMER_ACCOUNT => ['take', 128],
+        ];
     }
 }
