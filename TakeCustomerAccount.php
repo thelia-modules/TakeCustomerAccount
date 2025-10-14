@@ -23,7 +23,7 @@ class TakeCustomerAccount extends BaseModule
     /**
      * {@inheritdoc}
      */
-    public function getHooks()
+    public function getHooks(): array
     {
         return [
             [
