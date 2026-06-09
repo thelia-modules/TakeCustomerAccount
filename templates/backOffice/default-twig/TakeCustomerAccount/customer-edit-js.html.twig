@@ -1,0 +1,8 @@
+<script>
+(function () {
+    var popoverEl = document.querySelector('#module-take-customer-account [data-bs-toggle="popover"]');
+    if (popoverEl && typeof bootstrap !== 'undefined') {
+        new bootstrap.Popover(popoverEl);
+    }
+}());
+</script>

@@ -1,0 +1,40 @@
+{% if is_granted('VIEW', {resource: 'admin.module', module: 'TakeCustomerAccount'}) %}
+<div class="row mt-3">
+    <div class="col-md-12" id="module-take-customer-account">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="card-title mb-0">{{ 'Take customer account'|trans({}, 'takecustomeraccount.bo.default') }}</span>
+                <button type="button"
+                        class="btn btn-sm btn-secondary"
+                        data-bs-toggle="popover"
+                        data-bs-placement="left"
+                        data-bs-html="true"
+                        data-bs-trigger="focus"
+                        title="{{ 'Help !!!'|trans({}, 'takecustomeraccount.bo.default') }}"
+                        data-bs-content="{{ 'To ask for help'|trans({}, 'takecustomeraccount.bo.default') }} </br> <a target=\'_blank\' href=\'https://github.com/thelia-modules/TakeCustomerAccount/issues\'>GitHub</a>, <a target=\'_blank\' href=\'http://thelia.net/forum/\'>Thelia forum</a>">
+                    <i class="bi bi-info-circle"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <form action="{{ path('take_customer_account', {customer_id: customer_id}) }}" method="POST" target="_blank">
+                    <input type="hidden" name="_token" value="{{ assignToken() }}">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="alert alert-info">
+                                - {{ 'To connect to the customer\'s account'|trans({}, 'takecustomeraccount.bo.default') }}<br>
+                                - {{ 'If you are logged in with another customer he will be offline'|trans({}, 'takecustomeraccount.bo.default') }}<br>
+                                - {{ 'You have not need the customer password'|trans({}, 'takecustomeraccount.bo.default') }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <br>
+                            <br>
+                            <button type="submit" class="btn btn-primary">{{ 'Take customer account'|trans({}, 'takecustomeraccount.bo.default') }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

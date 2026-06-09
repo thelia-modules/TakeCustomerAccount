@@ -14,6 +14,8 @@ namespace TakeCustomerAccount\Hook;
 
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Hook\BaseHook;
+use Thelia\Core\Template\Parser\ParserResolver;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class AdminCustomerHook
@@ -22,29 +24,42 @@ use Thelia\Core\Hook\BaseHook;
  */
 class AdminCustomerHook extends BaseHook
 {
-    /**
-     * @param HookRenderEvent $event
-     */
-    public function onCustomerEdit(HookRenderEvent $event)
+    public function __construct(
+        ?EventDispatcherInterface $dispatcher = null,
+        ?ParserResolver $parserResolver = null,
+    ) {
+        parent::__construct($dispatcher, $parserResolver);
+    }
+
+    public static function getSubscribedHooks(): array
+    {
+        return [
+            'customer.edit' => [
+                ['type' => 'back', 'method' => 'onCustomerEdit'],
+            ],
+            'customer.edit-js' => [
+                ['type' => 'back', 'method' => 'onCustomerEditJs'],
+            ],
+        ];
+    }
+
+    public function onCustomerEdit(HookRenderEvent $event): void
     {
         $event->add($this->render(
-            'take-customer-account/hook/customer-edit.html',
-            array(
-                'customer_id' => $event->getArgument('customer_id')
-            )
+            'TakeCustomerAccount/customer-edit.html.twig',
+            [
+                'customer_id' => $event->getArgument('customer_id'),
+            ]
         ));
     }
 
-    /**
-     * @param HookRenderEvent $event
-     */
-    public function onCustomerEditJs(HookRenderEvent $event)
+    public function onCustomerEditJs(HookRenderEvent $event): void
     {
         $event->add($this->render(
-            'take-customer-account/hook/customer-edit-js.html',
-            array(
-                'customer_id' => $event->getArgument('customer_id')
-            )
+            'TakeCustomerAccount/customer-edit-js.html.twig',
+            [
+                'customer_id' => $event->getArgument('customer_id'),
+            ]
         ));
     }
 }
