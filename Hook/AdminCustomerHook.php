@@ -37,6 +37,9 @@ class AdminCustomerHook extends BaseHook
     public static function getSubscribedHooks(): array
     {
         return [
+            'module.configuration' => [
+                ['type' => 'back', 'method' => 'onModuleConfiguration'],
+            ],
             'customer.edit' => [
                 ['type' => 'back', 'method' => 'onCustomerEdit'],
             ],
@@ -44,6 +47,11 @@ class AdminCustomerHook extends BaseHook
                 ['type' => 'back', 'method' => 'onCustomerEditJs'],
             ],
         ];
+    }
+
+    public function onModuleConfiguration(HookRenderEvent $event): void
+    {
+        $event->add($this->render('TakeCustomerAccount/module-configuration.html.twig'));
     }
 
     public function onCustomerEdit(HookRenderEvent $event): void
