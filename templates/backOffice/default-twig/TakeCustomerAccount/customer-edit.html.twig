@@ -17,7 +17,7 @@
             </div>
             <div class="card-body">
                 <form action="{{ path('take_customer_account', {customer_id: customer_id}) }}" method="POST" target="_blank">
-                    <input type="hidden" name="_token" value="{{ assignToken() }}">
+                    <input type="hidden" name="{{ take_account_form.vars.full_name }}[_token]" value="{{ take_account_form._token.vars.value }}">
                     <div class="row">
                         <div class="col-md-8">
                             <div class="alert alert-info">

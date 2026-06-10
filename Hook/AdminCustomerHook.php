@@ -12,7 +12,9 @@
 
 namespace TakeCustomerAccount\Hook;
 
+use TakeCustomerAccount\Form\TakeCustomerAccountForm;
 use Thelia\Core\Event\Hook\HookRenderEvent;
+use Thelia\Core\Form\TheliaFormFactory;
 use Thelia\Core\Hook\BaseHook;
 use Thelia\Core\Template\Parser\ParserResolver;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -25,6 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class AdminCustomerHook extends BaseHook
 {
     public function __construct(
+        private readonly TheliaFormFactory $formFactory,
         ?EventDispatcherInterface $dispatcher = null,
         ?ParserResolver $parserResolver = null,
     ) {
@@ -49,6 +52,7 @@ class AdminCustomerHook extends BaseHook
             'TakeCustomerAccount/customer-edit.html.twig',
             [
                 'customer_id' => $event->getArgument('customer_id'),
+                'take_account_form' => $this->formFactory->createForm(TakeCustomerAccountForm::getName())->getForm()->createView(),
             ]
         ));
     }
